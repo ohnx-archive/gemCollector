@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>ca.masonx</groupId>
+  <artifactId>gemCollector</artifactId>
+  <version>0.0.1</version>
+  <packaging>jar</packaging>
+  
+  <name>gem collector</name>
+  <properties>
+    <jdk.version>1.8</jdk.version>
+  </properties>
+  
+  <dependencies>
+  	<dependency>
+		<groupId>ca.masonx</groupId>
+		<artifactId>leek</artifactId>
+		<version>0.0.1</version>
+		<scope>compile</scope>
+	</dependency>
+  </dependencies>
+</project>
