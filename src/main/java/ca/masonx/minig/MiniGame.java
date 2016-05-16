@@ -1,11 +1,13 @@
 package ca.masonx.minig;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 import ca.masonx.leek.Leek;
+import ca.masonx.leek.Leek.WindowLocation;
 import ca.masonx.leek.core.render.Text;
 import ca.masonx.leek.core.world.Entity;
 import ca.masonx.leek.core.world.Level;
@@ -15,6 +17,7 @@ public class MiniGame {
 	private Player p;
 	private CrystalSpawner cs;
 	private Text t;
+	public final Image wallPic;
 	
 	public static void main(String[] args) {
 		MiniGame me = new MiniGame();
@@ -23,11 +26,18 @@ public class MiniGame {
 	
 	public MiniGame() {
 		engine = new Leek();
+		Image img = null;
+		try {
+			img = ImageIO.read(new File("resources/img/wall.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		wallPic = img;
 	}
 	
 	protected void start() {
-		engine.init("Gem Collector");
 		try {
+			engine.init("Gem Collector", WindowLocation.CENTER, ImageIO.read(new File("resources/img/hat.png")));
 			Level l = new Level("Level 1", ImageIO.read(new File("resources/img/background.png")));
 			p = new Player(l, this);
 			cs = new CrystalSpawner(l);
