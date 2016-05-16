@@ -6,9 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import ca.masonx.leek.core.gameElement.Level;
-import ca.masonx.leek.core.gameElement.StaticEntity;
 import ca.masonx.leek.core.render.PositionedImage;
+import ca.masonx.leek.core.world.Level;
+import ca.masonx.leek.core.world.StaticEntity;
 
 public class Crystal extends StaticEntity {
 	/**
@@ -16,6 +16,7 @@ public class Crystal extends StaticEntity {
 	 */
 	private static final long serialVersionUID = 1194922464514422553L;
 	private transient BufferedImage img;
+	private PositionedImage pi;
 
 	public Crystal(Level parent, int px, int py, int pz) {
 		super(parent);
@@ -26,6 +27,7 @@ public class Crystal extends StaticEntity {
 			img = ImageIO.read(new File("resources/img/gem.png"));
 			this.height = img.getHeight();
 			this.width = img.getWidth();
+			pi = new PositionedImage(img, px, py, pz);
 		} catch (IOException e) {
 			e.printStackTrace();
 			img = null;
@@ -33,8 +35,10 @@ public class Crystal extends StaticEntity {
 	}
 
 	public PositionedImage render() {
-		PositionedImage pi = new PositionedImage(img, px, py, pz);
 		return pi;
 	}
 
+	public void collect() {
+		parent.removeEntity(this);
+	}
 }
