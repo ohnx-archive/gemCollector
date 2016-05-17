@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import ca.masonx.leek.core.annotations.LeekEventHandler;
 import ca.masonx.leek.core.events.CollisionListener;
 import ca.masonx.leek.core.events.EventHandlerRegister;
+import ca.masonx.leek.core.physics.CollisionChecker;
 import ca.masonx.leek.core.render.PositionedImage;
 import ca.masonx.leek.core.world.GameElement;
 import ca.masonx.leek.core.world.Level;
@@ -29,7 +30,10 @@ public class Player extends MovableEntity implements KeyListener, CollisionListe
 	private float speed = 0.1f;
 	private double closex;
 	private double closey;
-	int score;
+	private double tempx;
+	private double tempy;
+	int score = 0;
+	int health = 3;
 	
 	/* constructor for Player */
 	public Player(Level l, MiniGame parent) {
@@ -45,6 +49,10 @@ public class Player extends MovableEntity implements KeyListener, CollisionListe
 			images[2] = ImageIO.read(new File("resources/img/player3.png"));
 			height = images[0].getHeight();
 			width = images[0].getWidth();
+			px = 30;
+			py = 30;
+			closex = 30;
+			closey = 30;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,6 +62,9 @@ public class Player extends MovableEntity implements KeyListener, CollisionListe
 	
 	/* update the Player */
 	public void update(double time) {
+		/* backup the old values in case we can't move here */
+		tempx = closex;
+		tempy = closey;
 		/* check if any of the keys were pressed and
 		 * change the current graphic to the right one
 		 * and change the player position based on the speed */
@@ -69,16 +80,23 @@ public class Player extends MovableEntity implements KeyListener, CollisionListe
 		} else if (keysPressed[3]) {
 			currPos = 3;
 			closex += time*speed;
+		} else {
+			return;
 		}
-		/* round the float position to the closest int position */
-		px = (int) Math.round(closex);
-		py = (int) Math.round(closey);
+		/* Check if the player can walk there */
+		if (CollisionChecker.canMoveHere(parent, (int) Math.round(closex), (int) Math.round(closey), height, width)) {
+			px = (int) Math.round(closex);
+			py = (int) Math.round(closey);
+		} else {
+			closex = tempx;
+			closey = tempy;
+		}
 	}
 	
 	/* render the player - return the image that corresponds
 	 * to the right direction based on the array */
 	public PositionedImage render() {
-		return new PositionedImage(images[currPos], px, py, 5);
+		return new PositionedImage(images[currPos], px, py, 100);
 	}
 	
 	/* key pressed event
@@ -140,6 +158,10 @@ public class Player extends MovableEntity implements KeyListener, CollisionListe
 			c.collect();
 			score += 1;
 			mommy.updateScore(score);
+		} else if (ge instanceof EvilCrystal) {
+			EvilCrystal c = (EvilCrystal)ge;
+			c.collect();
+			mommy.mainMenu();
 		}
 	}
 }
