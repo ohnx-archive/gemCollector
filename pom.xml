@@ -11,15 +11,6 @@
     <jdk.version>1.8</jdk.version>
   </properties>
   
-  <dependencies>
-  	<dependency>
-		<groupId>ca.masonx</groupId>
-		<artifactId>leek</artifactId>
-		<version>0.0.1</version>
-		<scope>compile</scope>
-	</dependency>
-  </dependencies>
-  
   <build>
   <plugins>
 			<plugin>
