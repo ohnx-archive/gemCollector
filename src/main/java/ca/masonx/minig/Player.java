@@ -157,11 +157,20 @@ public class Player extends MovableEntity implements KeyListener, CollisionListe
 			Crystal c = (Crystal)ge;
 			c.collect();
 			score += 1;
-			mommy.updateScore(score);
+			mommy.updateScore();
 		} else if (ge instanceof EvilCrystal) {
 			EvilCrystal c = (EvilCrystal)ge;
 			c.collect();
-			mommy.mainMenu();
+			health--;
+			if (health == 0) mommy.mainMenu();
+			mommy.updateHealth();
+		} else if (ge instanceof GoodCrystal) {
+			GoodCrystal c = (GoodCrystal)ge;
+			c.collect();
+			health++;
+			score++;
+			mommy.updateScore();
+			mommy.updateHealth();
 		}
 	}
 }

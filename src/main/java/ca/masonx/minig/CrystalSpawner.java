@@ -37,13 +37,21 @@ public class CrystalSpawner extends Entity implements Updateable {
 			int score = mommy.getScore();
 			int randx = randomGenerator.nextInt(parent.width - 60) + 30;
 			int randy = randomGenerator.nextInt(parent.height - 60) + 30;
-			if (score > 8) {
-				if (randomGenerator.nextInt(score*2) > score) {
-					EvilCrystal c = new EvilCrystal(parent, randx, randy, 3);
-					parent.add(c);
-					return;
-				}
+			
+			// 1/4 chance of bad crystal
+			if (randomGenerator.nextInt(80) < Math.min(score, 20)) {
+				EvilCrystal c = new EvilCrystal(parent, randx, randy, 3);
+				parent.add(c);
+				return;
 			}
+			
+			// 1/5 chance good crystal
+			if (randomGenerator.nextInt(50) < Math.min(score, 10)) {
+				GoodCrystal c = new GoodCrystal(parent, randx, randy, 3);
+				parent.add(c);
+				return;
+			}
+		
 			Crystal c = new Crystal(parent, randx, randy, 3);
 			parent.add(c);
 		}

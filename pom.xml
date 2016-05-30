@@ -16,13 +16,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>ca.masonx.minig.MiniGame</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
+       <configuration>
+          <archive>
+            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
 			</plugin>
 		</plugins>
   </build>

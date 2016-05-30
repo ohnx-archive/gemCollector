@@ -9,9 +9,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import ca.masonx.leek.Leek;
-import ca.masonx.leek.Leek.WindowLocation;
+import ca.masonx.leek.core.gui.WindowLocation;
 import ca.masonx.leek.core.render.Text;
-import ca.masonx.leek.core.world.Entity;
 import ca.masonx.leek.core.world.Level;
 import ca.masonx.leek.misc.JukeBox;
 
@@ -19,9 +18,9 @@ public class MiniGame {
 	public final Leek engine;
 	private Player p;
 	private CrystalSpawner cs;
-	private Text t;
+	private Text score;
+	private Text health;
 	private boolean isFirstTime = true;
-	private int score;
 	
 	public static void main(String[] args) {
 		MiniGame me = new MiniGame();
@@ -43,16 +42,33 @@ public class MiniGame {
 		}
 	}
 	
+	protected void mainMenu() {
+		try {
+			Level l = new Level("Dead", ImageIO.read(new File("resources/img/mainmenu.png")));
+			DeathListener dl = new DeathListener(l, this);
+			l.add(dl);
+			engine.requestChangeLevel(l);
+			if (isFirstTime) {
+				isFirstTime = false;
+				engine.enterMainLoop();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	protected void mainLevel() {
 		try {
 			Level l = new Level("Level 1", ImageIO.read(new File("resources/img/background.png")));
 			p = new Player(l, this);
 			cs = new CrystalSpawner(l, this);
-			t = new Text(l, "Score: 0", 5, l.height-6);
+			score = new Text(l, "Score: 0", 5, l.height-6);
+			health = new Text(l, "Health: 3", 5, l.height-18);
 			
-			l.add((Entity)p);
-			l.add((Entity)cs);
-			l.add(t);
+			l.add(p);
+			l.add(cs);
+			l.add(score);
+			l.add(health);
 
 			Wall wl = new Wall(l, ImageIO.read(new File("resources/img/wall-vert.png")), 0, 0);
 			Wall wt = new Wall(l, ImageIO.read(new File("resources/img/wall-horiz.png")), 0, 0);
@@ -71,27 +87,15 @@ public class MiniGame {
 		}
 	}
 	
-	protected void updateScore(int score) {
-		t.text = "Score: " + Integer.toString(score);
-		this.score = score;
+	protected void updateScore() {
+		score.text = "Score: " + Integer.toString(p.score);
 	}
 	
 	protected int getScore() {
-		return score;
+		return p.score;
 	}
 	
-	protected void mainMenu() {
-		try {
-			Level l = new Level("Dead", ImageIO.read(new File("resources/img/mainmenu.png")));
-			DeathListener dl = new DeathListener(l, this);
-			l.add(dl);
-			engine.requestChangeLevel(l);
-			if (isFirstTime) {
-				isFirstTime = false;
-				engine.enterMainLoop();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	protected void updateHealth() {
+		health.text = "Health: " + Integer.toString(p.health);
 	}
 }
