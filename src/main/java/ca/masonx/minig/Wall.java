@@ -12,6 +12,7 @@ public class Wall extends Block {
 	
 	public Wall(Level parent, BufferedImage pic, int px, int py) {
 		super(parent);
+		// can use a premade image since nothing changes
 		this.image = new PositionedImage(pic, px, py, 10);
 		this.height = pic.getHeight();
 		this.width = pic.getWidth();

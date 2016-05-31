@@ -154,17 +154,21 @@ public class Player extends MovableEntity implements KeyListener, CollisionListe
 	/* check if something has collided with something else */
 	public void collidedWith(GameElement ge) {
 		if (ge instanceof Crystal) {
+			// normal crystal, increase score by 1
 			Crystal c = (Crystal)ge;
 			c.collect();
 			score += 1;
 			mommy.updateScore();
 		} else if (ge instanceof EvilCrystal) {
+			// evil crystal, decrease health by 1
 			EvilCrystal c = (EvilCrystal)ge;
 			c.collect();
 			health--;
+			// if health is 0, then you died! and go to main menu
 			if (health == 0) mommy.mainMenu();
 			mommy.updateHealth();
 		} else if (ge instanceof GoodCrystal) {
+			// good crystal, increase score by 1 and health by 1
 			GoodCrystal c = (GoodCrystal)ge;
 			c.collect();
 			health++;

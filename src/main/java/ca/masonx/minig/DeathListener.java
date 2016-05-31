@@ -20,9 +20,11 @@ public class DeathListener extends Entity implements MouseListener, KeyListener 
 	public DeathListener(Level parent, MiniGame daddy) {
 		super(parent);
 		this.daddy = daddy;
+		// register events
 		EventHandlerRegister.registerEventHandlers(parent, this);
 	}
 	
+	// go to the main level when the mouse is clicked
 	public void mouseClicked(MouseEvent me) {
 		daddy.mainLevel();
 	}
@@ -36,9 +38,11 @@ public class DeathListener extends Entity implements MouseListener, KeyListener 
 	public void mouseReleased(MouseEvent arg0) {}
 
 	public PositionedImage render() {
+		// DeathListener is invisible
 		return null;
 	}
 
+	// go to the main level when the key is pressed
 	public void keyPressed(KeyEvent arg0) {daddy.mainLevel();}
 
 	public void keyReleased(KeyEvent arg0) {}

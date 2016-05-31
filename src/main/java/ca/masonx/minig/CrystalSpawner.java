@@ -27,11 +27,14 @@ public class CrystalSpawner extends Entity implements Updateable {
 	}
 
 	public PositionedImage render() {
+		// the CrystalSpawner is invisible
 		return null;
 	}
 
 	public void update(double time) {
+		// called every time this gets updated
 		timeToSpawn -= time;
+		// check if the time to spawn is negative
 		if (timeToSpawn < 0) {
 			recalcTimeToSpawn();
 			int score = mommy.getScore();
@@ -52,6 +55,7 @@ public class CrystalSpawner extends Entity implements Updateable {
 				return;
 			}
 		
+			// remaining chance is the normal crystal
 			Crystal c = new Crystal(parent, randx, randy, 3);
 			parent.add(c);
 		}
